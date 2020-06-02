@@ -1,7 +1,6 @@
 <template>
     <div>
         ユーザー：{{this.user_name}}
-        <button @click="logout();">ログアウト</button>
     </div>
 </template>
 
@@ -16,14 +15,10 @@ export default {
     mounted(){
         if(localStorage.user_name){
             this.user_name = localStorage.user_name;
+        }else{
+            window.location.href = '/';
         }
     },
-    methods:{
-        logout(){
-            localStorage.removeItem("user_name");
-            this.user_name = localStorage.user_name;
-        }
-    }
 }
 </script>
 <style>

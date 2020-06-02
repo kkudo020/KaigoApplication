@@ -5,20 +5,17 @@
           <userName />
           <p>{{message}}</p>
       </div>
-      <div>
-          <form action="">
+          <form action="/user_list" method="GET">
               <input type="text" name="name" id="">
-              <button type="submit">検索</button>
+              <input type="submit" value="検索" >
           </form>
-      </div>
-      <div>
-          <table>
-              <tr>
+          <table class="list">
+              <tr style="cursor:default;">
                   <th>利用者氏名</th>
                   <th>生年月日</th>
                   <th>性別</th>
               </tr>
-              <tr v-for="data in html_data" :key="data" >
+              <tr v-for="data in personal_data" :key="data" @click="doAction(data.PERSONAL_ID)" >
                 <td>{{data.P_NAME}}</td>
                 <td>{{data.BIRTHDAY}}</td>
                 <td>
@@ -27,8 +24,6 @@
                 </td>
               </tr>
           </table>
-      </div>
-      <router-link to="/nyusyo_list?id=001">入所情報一覧へ</router-link>
   </div>
 </template>
 
@@ -36,6 +31,7 @@
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/PERSONAL.json";
 import userName from '../components/userName';
+import nyusyokanri_mainVue from './nyusyokanri_main.vue';
 
 export default {
     data: function(){
@@ -44,38 +40,48 @@ export default {
             message:'利用者を選択してください。',
         };
     },
-    asyncData: async function(){
-        let result = await axios.get(url);
-        return{ html_data:result.data };
+    asyncData: async function(context){
+        let get_url=url;
+        if(context.query.name){
+            get_url += "?orderBy=%22P_NAME%22&equalTo=%22"+context.query.name+"%22";
+        }
+        let result = await axios.get(get_url);
+        console.log(result.data);
+        return{ personal_data:result.data };
     },
     components:{
         userName
     },
+    methods:{
+        doAction(p_id){
+            this.$router.push('nyusyo_list?id='+p_id);
+        }
+    }
 }
 </script>
 <style>
-div{
-    padding: 10pt;
-}
-a{
-    margin-top: 1em;
-}
-table{
+.list{
   border-collapse: collapse;
 }
-th{
+.list th{
     font-size: 14pt;
     color: white;
     padding: 5pt;
-    border: 2px solid white;
+    border: 2px solid gray;
     background: steelblue;
 }
-td{
+.list tr{
     padding: 1pt 5pt;
-    border: 2px solid white;
-    background: lightblue;
+    border: 2px solid gray;
+    background: rgb(223, 234, 238);
 }
-tr:nth-child(odd){
-    background: steellightblue;
+.list tr:hover{
+    background: rgb(158, 215, 236);
+    cursor: pointer;
 }
+.list td{
+    padding: 1pt 5pt;
+    border: none;
+}
+
 </style>

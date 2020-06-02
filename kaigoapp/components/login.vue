@@ -1,6 +1,6 @@
 <template>
     <div style="text">
-        <div v-if="user_name ==undefined">
+        <div>
             <p style="color:red;">{{msg}}</p>
         <table>
             <tr>
@@ -17,17 +17,12 @@
             </tr>
         </table>
         </div>
-        <div v-if="user_name !=undefined">
-            <userName />
-            <button @click="logout();">ログアウト</button>
-        </div>
     </div>
 </template>
 
 <script>
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/USER";
-import userName from '../components/userName';
 
 export default {
     name: 'login',
@@ -35,8 +30,7 @@ export default {
         return{
             id:'',
             pass:'',
-            msg:'',
-            user_name:localStorage.user_name,
+            msg:'ID[guest] PASS[123abc]',
         };
     },
     methods: {
@@ -66,7 +60,7 @@ export default {
                 if(pass == input_pass){
                     //ログイン成功
                     localStorage.user_name = result_json.USER_NAME;
-                    this.user_name = result_json.USER_NAME;
+                    this.$router.push('/nyusyotop');
                 }else{
                     //ログイン失敗
                     this.msg = "ID又はパスワードが間違っています。";
@@ -77,9 +71,6 @@ export default {
             localStorage.removeItem("user_name");
             this.user_name = localStorage.user_name;
         }
-    },
-    components:{
-        userName
     },
 }
 </script>

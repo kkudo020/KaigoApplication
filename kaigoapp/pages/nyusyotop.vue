@@ -4,8 +4,9 @@
           <h1>{{title}}</h1>
           <p>{{message}}</p>
           <userName />
-          <a v-if="login_status" href="/bed">ベットの利用状況</a><br>
-          <a v-if="login_status" href="/user_list">利用者一覧</a>
+          <button @click="logout();">ログアウト</button><br>
+          <a href="/bed">ベットの利用状況</a><br>
+          <a href="/user_list">利用者一覧</a>
       </div>
   </div>
 </template>
@@ -22,14 +23,17 @@ export default {
         };
     },
     methods:{
-
+        logout(){
+            localStorage.removeItem("user_name");
+            this.user_name = localStorage.user_name;
+            this.$router.push("/");
+        }
     },
     components:{
         login,
         userName
     },
 }
-
 </script>
 <style>
 div{
@@ -48,5 +52,4 @@ a:hover {
   color: #fff;
   background-color: gray;
 }
-
 </style>

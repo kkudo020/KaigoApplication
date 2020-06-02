@@ -4,33 +4,29 @@
           <h1>{{title}}</h1>
           <p>{{message}}</p>
           <userName />
-          <p>{{this.$route.query.id}}</p>
+          <p></p>
       </div>
-      <div>
+      <p>[{{personal_data}}] 様</p>
           <form action="">
               <input type="text" name="name" id="">
               <button type="submit">検索</button>
           </form>
-      </div>
-      <div>
-          <table>
+          <table class="list">
               <tr>
                   <th>フロア</th>
-                  <th>ベッド</th>
                   <th>ベッド</th>
                   <th>開始日</th>
                   <th>終了日</th>
                   <th>備考</th>
               </tr>
-              <tr v-for="data in html_data" :key="data">
-                <td>{{}}</td>
-                <td>{{data.BIRTHDAY}}</td>
-                <td>{{data.BIRTHDAY}}</td>
-                <td>{{data.BIRTHDAY}}</td>
+              <tr v-for="data in stay_data" :key="data" @click="doAction();" >
+                <td>{{bed_data[data.BED_ID]["FLOOR"]}}</td>
+                <td>{{bed_data[data.BED_ID]["BED_NUM"]}}</td>
+                <td>{{data.START_DAY}}</td>
+                <td>{{data.LAST_DAY}}</td>
                 <td>{{data.BIRTHDAY}}</td>
               </tr>
           </table>
-      </div>
   </div>
 </template>
 
@@ -46,41 +42,24 @@ export default {
             message:'確認・変更をしたい入所情報を選択してください。',
         };
     },
-    asyncData: async function(){
-        let personal_id = '001';//ほんとはクエリから取得したい
-        let result_stay = await axios.get(url+"stay.json?orderBy=%22PERSONAL_ID%22&"+personal_id);
-        let result_personal = await axios.get(url+"personal.json");
-
-        return{ html_data:result_stay.data };
+    asyncData: async function(context){
+        let personal_id = context.query.id;
+        let result_stay = await axios.get(url+"STAY.json?orderBy=%22PERSONAL_ID%22&equalTo=%22"+personal_id+"%22");
+        let result_bed = await axios.get(url+"BED.json");
+        let result_personal = await axios.get(url+"PERSONAL/"+personal_id+"/P_NAME.json")
+        return{ stay_data:result_stay.data,
+                bed_data:result_bed.data,
+                personal_data:result_personal.data
+        };
     },
     components:{
         userName
     },
+    methods:{
+        doAction(){
+            // this.$router.push('nyusyokanri_main');
+            window.location.href = '/nyusyokanri_main';
+        }
+    }
 }
 </script>
-<style>
-div{
-    padding: 10pt;
-}
-a{
-    margin-top: 1em;
-}
-table{
-  border-collapse: collapse;
-}
-th{
-    font-size: 14pt;
-    color: white;
-    padding: 5pt;
-    border: 2px solid white;
-    background: steelblue;
-}
-td{
-    padding: 1pt 5pt;
-    border: 2px solid white;
-    background: lightblue;
-}
-tr:nth-child(odd){
-    background: steellightblue;
-}
-</style>
