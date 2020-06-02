@@ -3,6 +3,7 @@
       <div>
           <h1>{{title}}</h1>
           <p>{{message}}</p>
+          <userName />
           <p>{{this.$route.query.id}}</p>
       </div>
       <div>
@@ -21,7 +22,7 @@
                   <th>終了日</th>
                   <th>備考</th>
               </tr>
-              <tr v-for="data in html_data" :key="data" v-if="">
+              <tr v-for="data in html_data" :key="data">
                 <td>{{}}</td>
                 <td>{{data.BIRTHDAY}}</td>
                 <td>{{data.BIRTHDAY}}</td>
@@ -36,6 +37,8 @@
 <script>
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/";
+import userName from '../components/userName';
+
 export default {
     data: function(){
         return{
@@ -49,6 +52,9 @@ export default {
         let result_personal = await axios.get(url+"personal.json");
 
         return{ html_data:result_stay.data };
+    },
+    components:{
+        userName
     },
 }
 </script>

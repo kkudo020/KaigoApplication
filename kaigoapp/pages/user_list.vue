@@ -2,7 +2,7 @@
   <div class="container">
       <div>
           <h1>{{title}}</h1>
-          <p>{{$store.state.login_user}}</p>
+          <userName />
           <p>{{message}}</p>
       </div>
       <div>
@@ -35,6 +35,8 @@
 <script>
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/PERSONAL.json";
+import userName from '../components/userName';
+
 export default {
     data: function(){
         return{
@@ -45,6 +47,9 @@ export default {
     asyncData: async function(){
         let result = await axios.get(url);
         return{ html_data:result.data };
+    },
+    components:{
+        userName
     },
 }
 </script>
