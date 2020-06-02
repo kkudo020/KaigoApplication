@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>ベッドの空き状況</h1>
+    日付 (～1週間を表示)
     <no-ssr>
       <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates' }"
@@ -12,7 +13,8 @@
     </no-ssr>
     <table>
       <tr>
-        <th rowspan="7">1F</th>
+        
+        <th></th>
         <th></th>
         <th>{{ day1 }}</th>
         <th>{{ day2 }}</th>
@@ -23,61 +25,93 @@
         <th>{{ day7 }}</th>
       </tr>
       <tr>
-        <td>101A</td>
-        <td><button><a href="/nyusyokanri_main">空</a></button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
+        <th rowspan="8">1F</th>
+        <td class="room">101A</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
       </tr>
       <tr>
-        <td>101B</td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
+        <td class="room">101B</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
       </tr>
       <tr>
-        <td>101C</td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
+        <td class="room">101C</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
       </tr>
       <tr>
-        <td>101D</td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
+        <td class="room">101D</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
       </tr>
       <tr>
-        <td>102A</td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
-        <td><button>空</button></td>
+        <td class="room">102A</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+      </tr>
+      <tr>
+        <td class="room">102B</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+      </tr>
+      <tr>
+        <td class="room">103A</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+      </tr>
+      <tr>
+        <td class="room">104A</td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
-
+const axios = require('axios');
+let url = "https://kaigo-db-a268b.firebaseio.com/BED.json";
 
 export default {
   data:function() {
@@ -108,27 +142,45 @@ export default {
         this.day6 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 5);
         this.day7 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 6);
       } 
-  }
+  },
+  asyncData: async function() {
+    let result = await axios.get(url);
+    return { bed_data: result.data };
+  },
 }
 </script>
 
 <style>
 input {
-  margin-left: 1em;
+  margin-top:2em;
+  margin-left: 3.5em;
+  width: 100px;
 }
 table {
   border-collapse: collapse;
-  margin-top: 1em;
-  margin-left: 1em;
+  margin-top: 3em;
+  margin-left: 2em;
+  width: 97%;
+  height: 800px;
+}
+.room {
+  background-color: lightgray;
 }
 th, td {
   border: solid 1px black;
+}
+th {
+  background-color: gray;
 }
 td {
   text-align: center;
 }
 button {
   background-color: white;
-  border: solid 1px white;
+  border-style: none;
+  outline: none;
+}
+button:hover {
+  color:lightblue;
 }
 </style>
