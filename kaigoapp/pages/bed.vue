@@ -24,7 +24,7 @@
         <th>{{ day7 }}</th>
       </tr>
       <tr v-for="data in room_data" v-bind:key="data">
-        <th rowspan="8" v-if="flag">{{ data.FROOR }}F</th>
+        <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
         <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
         <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
@@ -58,7 +58,7 @@ export default {
       day5: (d.getMonth() + 1) + '/' + (d.getDate() + 4),
       day6: (d.getMonth() + 1) + '/' + (d.getDate() + 5) ,
       day7: (d.getMonth() + 1) + '/' + (d.getDate() + 6) ,
-      flag:false,
+      flag:'001',
     }
   },
   methods: {

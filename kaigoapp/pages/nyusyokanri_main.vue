@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h1>入所管理画面</h1>
-    <input type="button" class="btn2" value="保存">
-    <input type="button" class="btn" value="削除">
+    <button id="btn" class="btn2" @click="addData">保存</button>
+    <button id="btn1" class="btn" @click="delData">削除</button>
     
     <table>
         <tr>
@@ -23,7 +23,7 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">開始時間</td>
-        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker></td>
+        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime2"></vue-timepicker></td>
       </tr>
       <tr>
         <td class="txt">終了</td>
@@ -36,7 +36,7 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">終了時間</td>
-        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker></td>
+        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
         
       </tr>
       <tr>
@@ -51,7 +51,9 @@
 <script>
 import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
-
+import firebase from '@/plugins/firebase'
+const axios = require('axios');
+let url = "https://kaigo-db-a268b.firebaseio.com/STAY";
 export default {
   data:function() {
     return {
@@ -64,14 +66,58 @@ export default {
       format: 'HH:mm',
       minInterval: 30,
       stringTime: "09:00",
-      objectTime: {
-          HH: '09',
-          mm: '00'
-      }
+      stringTime2: "09:30",
+      stringTime3: "16:00",
+      stringTime4: "16:30",
+      json_data:{},
     }
   },
   components: {
       VueTimepicker,
+  },
+  methods: {
+    addData: function() {
+      let data = {
+         START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
+         IN_TIME_S: this.stringTime,
+         IN_TIME_E: this.stringTime2,
+         LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
+         OUT_TIME_S: this.stringTime3,
+         OUT_TIME_E: this.stringTime4,
+         KEY:'0001',
+       };
+           let updates = {};
+           updates['/STAY/' + this.KEY] = data;
+           return new Promise((resolve, reject) =>{
+             firebase.database().ref().update(updates).then((res) =>{
+               resolve(res)
+             }).catch((err) =>{
+               reject(err)
+             })
+           })
+    },
+    delData:function(){
+      let del_url = url + '/0001.json';
+      var btn = document.getElementById('btn1');
+       btn.addEventListener('click', function() {
+         var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
+         if(result) {
+           axios.delete(del_url).then((re) =>{
+          this.getData();
+        });
+         }
+       })
+    },
+    getData: function() {
+      axios.get(url + '.json').then((res) =>{
+        this.json_data = res.data;
+      }).catch((error) =>{
+        this.json_data = {};
+      });
+    }
+  },
+  created: function() {
+    this.getData();
   }
 }
 </script>
