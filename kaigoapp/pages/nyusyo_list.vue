@@ -2,15 +2,10 @@
   <div class="container">
       <div>
           <h1>{{title}}</h1>
-          <p>{{message}}</p>
           <userName />
-          <p></p>
+          <p>{{message}}</p>
       </div>
       <p>[{{personal_data}}] 様</p>
-          <form action="">
-              <input type="text" name="name" id="">
-              <button type="submit">検索</button>
-          </form>
           <table class="list">
               <tr>
                   <th>フロア</th>
@@ -20,11 +15,11 @@
                   <th>備考</th>
               </tr>
               <tr v-for="data in stay_data" :key="data" @click="doAction();" >
-                <td>{{bed_data[data.BED_ID]["FLOOR"]}}</td>
-                <td>{{bed_data[data.BED_ID]["BED_NUM"]}}</td>
-                <td>{{data.START_DAY}}</td>
-                <td>{{data.LAST_DAY}}</td>
-                <td>{{data.BIRTHDAY}}</td>
+                <td style="text-align:center" width="15%">{{bed_data[data.BED_ID]["FLOOR"]}}</td>
+                <td style="text-align:center" width="15%">{{bed_data[data.BED_ID]["BED_NUM"]}}</td>
+                <td width="20%">{{data.START_DAY}}</td>
+                <td width="20%">{{data.LAST_DAY}}</td>
+                <td width="30%">{{data.BIRTHDAY}}</td>
               </tr>
           </table>
   </div>
