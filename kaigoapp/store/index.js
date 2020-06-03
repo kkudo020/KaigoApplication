@@ -7,6 +7,7 @@ const createStore = ()=>{
                 userid:'',
                 bedid:'',
                 stayid:'',
+                date:'',
             };
         },
         mutations:{
