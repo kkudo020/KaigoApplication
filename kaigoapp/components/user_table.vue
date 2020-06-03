@@ -1,7 +1,7 @@
 <template>
   <div class="container">
           <form action="/user_list" method="GET">
-              <input type="text" name="name" id="">
+              <input type="text" name="name" v-bind:value=this.name >
               <input type="submit" value="検索" >
           </form>
           <table class="list">
@@ -10,7 +10,7 @@
                   <th>生年月日</th>
                   <th>性別</th>
               </tr>
-              <tr v-for="data in personal_data" :key="data" @click="doAction(data.PERSONAL_ID)" >
+              <tr v-for="data in personal_data" :key="data.PERSONAL_ID" @click="doAction(data.PERSONAL_ID)" >
                 <td width="40%">{{data.P_NAME}}</td>
                 <td width="40%">{{data.BIRTHDAY}}</td>
                 <td style="text-align:center" width="20%">
@@ -35,16 +35,14 @@ export default {
         };
     },
     props:{
-          name:''
+          name:String
     },
     mounted(){
       let get_url=url;
-        if(name != ''){
-            get_url += "?orderBy=%22P_NAME%22&equalTo=%22"+name+"%22";
+        if(this.name != undefined && this.name != ''){
+            get_url += "?orderBy=%22P_NAME%22&equalTo=%22"+this.name+"%22";
         }
-        console.log(get_url);
         axios.get(get_url).then((res)=>{
-          console.log(res.data);
           this.personal_data = res.data;
         });
     },
@@ -82,5 +80,4 @@ export default {
     padding: 1pt 5pt;
     border: none;
 }
-
 </style>
