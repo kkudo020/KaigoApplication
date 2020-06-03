@@ -54,9 +54,6 @@ export default {
                 }
                 console.log(result_json);
                 let pass = result_json.PASSWORD;
-                console.log(pass+" "+input_pass);
-                console.log(pass == input_pass);
-
                 if(pass == input_pass){
                     //ログイン成功
                     localStorage.user_name = result_json.USER_NAME;

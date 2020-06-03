@@ -15,7 +15,7 @@
                   <th>終了日</th>
                   <th>備考</th>
               </tr>
-              <tr v-for="(data,key) in stay_data" :key="key" @click="doAction();" >
+              <tr v-for="(data,key) in stay_data" :key="key" @click="doAction(key);" >
                 <td style="text-align:center" width="15%">{{bed_data[data.BED_ID]["FLOOR"]}}</td>
                 <td style="text-align:center" width="15%">{{bed_data[data.BED_ID]["BED_NUM"]}}</td>
                 <td width="20%">{{data.START_DAY}}</td>
@@ -39,7 +39,7 @@ export default {
         };
     },
     asyncData: async function(context){
-        let personal_id = context.query.id;
+        let personal_id = context.store.state.userid;
         let result_stay = await axios.get(url+"STAY.json?orderBy=%22PERSONAL_ID%22&equalTo=%22"+personal_id+"%22");
         let result_bed = await axios.get(url+"BED.json");
         let result_personal = await axios.get(url+"PERSONAL/"+personal_id+"/P_NAME.json")
@@ -52,12 +52,19 @@ export default {
         userName
     },
     methods:{
-        doAction(){
+        doAction(id){
             // this.$router.push('nyusyokanri_main');
+            this.$store.commit('set_stayid',id);
+            console.log(this.$store.state);
             window.location.href = '/nyusyokanri_main';
         },
         newcreate(){
-            console.log('新規作成');
+            if(this.$store.state.bedid ==''){
+                window.location.href = '/bed';
+            }else{
+                console.log('新規作成');
+            }
+            
         }
     }
 }

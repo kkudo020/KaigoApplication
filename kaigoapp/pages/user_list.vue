@@ -27,12 +27,13 @@ export default {
     methods:{
         nextpage(p_id){
             let next;
-            if(this.$route.query.bed_id){
+            if(this.$store.state.bedid != ''){
                 next = "nyusyokanri_main";
             }else{
                 next = "nyusyo_list";
             }
-            this.$router.push(next+'?id='+p_id);
+            this.$store.commit('set_userid',p_id);
+            this.$router.push(next);
         }
     }
 }
