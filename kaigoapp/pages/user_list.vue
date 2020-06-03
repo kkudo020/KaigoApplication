@@ -5,7 +5,7 @@
           <userName />
           <p>{{message}}</p>
       </div>
-      <userTable v-bind:name=$route.params.name @nextpage="nextpage"/>
+      <userTable v-bind:name=$route.query.name @nextpage="nextpage"/>
   </div>
 </template>
 
@@ -26,7 +26,13 @@ export default {
     },
     methods:{
         nextpage(p_id){
-            this.$router.push('nyusyo_list?id='+p_id);
+            let next;
+            if(this.$route.query.bed_id){
+                next = "nyusyokanri_main";
+            }else{
+                next = "nyusyo_list";
+            }
+            this.$router.push(next+'?id='+p_id);
         }
     }
 }
