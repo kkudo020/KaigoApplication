@@ -13,7 +13,6 @@
     </no-ssr>
     <table>
       <tr>
-        
         <th></th>
         <th></th>
         <th>{{ day1 }}</th>
@@ -24,79 +23,9 @@
         <th>{{ day6 }}</th>
         <th>{{ day7 }}</th>
       </tr>
-      <tr>
-        <th rowspan="8">1F</th>
-        <td class="room">101A</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">101B</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">101C</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">101D</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">102A</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">102B</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">103A</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-      </tr>
-      <tr>
-        <td class="room">104A</td>
+      <tr v-for="data in room_data" v-bind:key="data">
+        <th rowspan="8" v-if="flag">{{ data.FROOR }}F</th>
+        <td class="room">{{ data.BED_NUM }}</td>
         <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
         <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
         <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
@@ -129,6 +58,7 @@ export default {
       day5: (d.getMonth() + 1) + '/' + (d.getDate() + 4),
       day6: (d.getMonth() + 1) + '/' + (d.getDate() + 5) ,
       day7: (d.getMonth() + 1) + '/' + (d.getDate() + 6) ,
+      flag:false,
     }
   },
   methods: {
@@ -145,7 +75,7 @@ export default {
   },
   asyncData: async function() {
     let result = await axios.get(url);
-    return { bed_data: result.data };
+    return { room_data: result.data };
   },
 }
 </script>

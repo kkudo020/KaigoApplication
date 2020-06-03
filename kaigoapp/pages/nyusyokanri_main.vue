@@ -23,9 +23,7 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">開始時間</td>
-        <td colspan="3" class="name"><select name="time">
-        <option value="09:00">09:00</option></select> ～ <select name="time">
-        <option value="09:30">09:30</option></select></td>
+        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker></td>
       </tr>
       <tr>
         <td class="txt">終了</td>
@@ -38,9 +36,7 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">終了時間</td>
-        <td colspan="3" class="name"><select name="time">
-        <option value="16:00">16:00</option></select> ～ <select name="time">
-        <option value="16:30">16:30</option></select></td>
+        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval"></vue-timepicker></td>
         
       </tr>
       <tr>
@@ -53,7 +49,8 @@
 </template>
 
 <script>
-
+import VueTimepicker from 'vue2-timepicker'
+import 'vue2-timepicker/dist/VueTimepicker.css'
 
 export default {
   data:function() {
@@ -64,8 +61,18 @@ export default {
       },
       selectedDate:new Date(),
       selectedDate2: new Date(),
+      format: 'HH:mm',
+      minInterval: 30,
+      stringTime: "09:00",
+      objectTime: {
+          HH: '09',
+          mm: '00'
+      }
     }
   },
+  components: {
+      VueTimepicker,
+  }
 }
 </script>
 
