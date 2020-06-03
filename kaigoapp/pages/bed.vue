@@ -51,7 +51,7 @@ export default {
         input: ['YYYY-MM-DD'],
       },
       selectedDate:d,
-      day1: (d.getMonth() + 1) + '/' + d.getDate() ,
+      day1: (d.getMonth() + 1) + '/' ,
       day2: (d.getMonth() + 1) + '/' + (d.getDate() + 1) ,
       day3: (d.getMonth() + 1) + '/' + (d.getDate() + 2) ,
       day4: (d.getMonth() + 1) + '/' + (d.getDate() + 3) ,
