@@ -30,7 +30,7 @@ export default {
         return{
             id:'',
             pass:'',
-            msg:'ID[guest] PASS[123abc]',
+            msg:'テスト用 ID[guest] PASS[123abc]',
         };
     },
     methods: {

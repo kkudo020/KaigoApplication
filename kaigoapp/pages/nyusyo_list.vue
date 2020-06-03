@@ -55,8 +55,8 @@ export default {
         doAction(id){
             // this.$router.push('nyusyokanri_main');
             this.$store.commit('set_stayid',id);
-            console.log(this.$store.state);
-            window.location.href = '/nyusyokanri_main';
+            this.$router.push('nyusyokanri_main');
+            // window.location.href = '/nyusyokanri_main';
         },
         newcreate(){
             if(this.$store.state.bedid ==''){

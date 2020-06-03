@@ -84,10 +84,12 @@ export default {
          LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
          OUT_TIME_S: this.stringTime3,
          OUT_TIME_E: this.stringTime4,
-         KEY:'0001',
+         PERSONAL_ID:this.$store.state.userid,
+         BED_ID:this.$store.state.bedid,
+         KEY:this.$store.state.stayid,
        };
            let updates = {};
-           updates['/STAY/' + this.KEY] = data;
+           updates['/STAY/' + this.$store.state.stayid] = data;
            return new Promise((resolve, reject) =>{
              firebase.database().ref().update(updates).then((res) =>{
                resolve(res)
