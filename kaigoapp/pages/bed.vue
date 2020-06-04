@@ -15,24 +15,16 @@
       <tr>
         <th></th>
         <th></th>
-        <th>{{ day1 }}</th>
-        <th>{{ day2 }}</th>
-        <th>{{ day3 }}</th>
-        <th>{{ day4 }}</th>
-        <th>{{ day5 }}</th>
-        <th>{{ day6 }}</th>
-        <th>{{ day7 }}</th>
+        <th v-for="(data,key) in day" :key="key" >{{(data.getMonth() + 1) + '/' + data.getDate() +'('+ (weekDay[data.getDay()]) +')'}}</th>
       </tr>
-      <tr v-for="data in room_data" v-bind:key="data">
+      <tr v-for="(data,key) in room_data" v-bind:key="key">
         <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
-        <td><button onclick="location.href='/nyusyokanri_main'">空</button></td>
+        <td v-for="(c_data,c_key) in day" v-bind:key="c_key" >
+          <!-- <button v-if="data.SCHEDULE.hasOwnProperty((c_data.getMonth()+1)+'_'+c_data.getDate())" onclick="#">{{data}}</button> -->
+          <!--data.SCHEDULE[(c_data.getMonth()+1)+"_"+c_data.getDate()]-->
+          <button @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
+        </td>
       </tr>
     </table>
   </div>
@@ -50,28 +42,28 @@ export default {
       formats: {
         input: ['YYYY-MM-DD'],
       },
+      weekDay:["日","月","火","水","木","金","土"],
       selectedDate:d,
-      day1: (d.getMonth() + 1) + '/' + d.getDate() ,
-      day2: (d.getMonth() + 1) + '/' + (d.getDate() + 1) ,
-      day3: (d.getMonth() + 1) + '/' + (d.getDate() + 2) ,
-      day4: (d.getMonth() + 1) + '/' + (d.getDate() + 3) ,
-      day5: (d.getMonth() + 1) + '/' + (d.getDate() + 4),
-      day6: (d.getMonth() + 1) + '/' + (d.getDate() + 5) ,
-      day7: (d.getMonth() + 1) + '/' + (d.getDate() + 6) ,
+      day: [],
       flag:'001',
     }
   },
   methods: {
     inputEvent: function() {
-        var newday = this.selectedDate;
-        this.day1 = (newday.getMonth() + 1) + '/' + newday.getDate();
-        this.day2 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 1);
-        this.day3 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 2);
-        this.day4 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 3);
-        this.day5 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 4);
-        this.day6 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 5);
-        this.day7 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 6);
-      } 
+        var newday = new Date(this.selectedDate);
+        console.log(newday);
+        for(var i=0;i<7;i++){
+          this.$set(this.day,i,new Date(newday));
+          //(newday.getMonth() + 1) + '/' + newday.getDate() +'('+ this.weekDay[newday.getDay()] +')'
+          newday.setDate(newday.getDate()+1);
+        }
+        console.log(this.day);
+      },
+    blank: function(bedid,date){
+      this.$store.commit('set_bedid',bedid);
+      this.$store.commit('set_date',date);
+      this.$router.push('user_list');
+    }
   },
   asyncData: async function() {
     let result = await axios.get(url);
