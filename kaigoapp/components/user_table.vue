@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container" >
           <form action="/user_list" method="GET">
-              <input type="text" name="name" v-bind:value=this.name >
-              <input type="submit" value="検索" >
+              <input type="text" name="name" v-bind:value=this.name style="margin:2pt;">
+              <input type="submit" value="検索" style="margin:2pt;">
           </form>
           <table class="list">
               <tr style="cursor:default;">

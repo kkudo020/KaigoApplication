@@ -71,9 +71,3 @@ export default {
     },
 }
 </script>
-<style>
-div{
-    padding: 10pt;
-}
-
-</style>

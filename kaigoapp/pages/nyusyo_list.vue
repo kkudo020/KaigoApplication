@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" >
       <div>
           <h1>{{title}}</h1>
           <userName />
@@ -55,6 +55,7 @@ export default {
         doAction(id){
             // this.$router.push('nyusyokanri_main');
             this.$store.commit('set_stayid',id);
+            this.$store.commit('set_bedid','001')
             this.$router.push('nyusyokanri_main');
             // window.location.href = '/nyusyokanri_main';
         },

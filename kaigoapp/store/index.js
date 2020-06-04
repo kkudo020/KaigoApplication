@@ -20,6 +20,9 @@ const createStore = ()=>{
             set_stayid: function(state,id){
                 state.stayid = id;
             },
+            set_date: function(state,id){
+                state.stayid = id;
+            },
         },
     })
 }
