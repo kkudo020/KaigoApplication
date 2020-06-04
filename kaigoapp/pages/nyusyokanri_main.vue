@@ -101,7 +101,8 @@ export default {
       var key = firebase.database().ref().child('STAY').push().key;
         var result = window.confirm('データを登録します');
         if(result){
-          firebase.database().ref('/STAY/ ' + key).set(data);
+          firebase.database().ref('/STAY/' + key).set(data);
+          this.$store.commit('set_stayid');
         }
     },
     upData:function() {
@@ -134,9 +135,11 @@ export default {
             OUT_TIME_E: null,
             PERSONAL_ID:null,
             BED_ID:null,
-            STAY_TYPE:this.type,
+            STAY_TYPE:null,
            };
-        var key = $store.commit('set_stayid');
+        firebase.database().ref('STAY/' + this.$store.state.stayid).once("value", snapshot =>{
+          console.log(snapshot.val())
+        })
         var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
          if(result) {
            firebase.database().ref('/STAY/' + this.$store.state.stayid).set(sendData);
