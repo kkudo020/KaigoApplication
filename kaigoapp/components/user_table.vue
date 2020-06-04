@@ -1,8 +1,8 @@
 <template>
   <div class="container" >
-          <form action="/user_list" method="GET">
-              <input type="text" name="name" v-bind:value=this.name style="margin:2pt;">
-              <input type="submit" value="検索" style="margin:2pt;">
+          <form @submit.prevent="doSearch" method="POST" >
+              <input type="text" name="name" v-model="name">
+              <input type="submit" value="検索">
           </form>
           <table class="list">
               <tr style="cursor:default;">
@@ -32,23 +32,24 @@ export default {
             title:'利用者一覧',
             message:'利用者を選択してください。',
             personal_data:{},
+            name:"",
         };
     },
-    props:{
-          name:String
-    },
     mounted(){
-      let get_url=url;
-        if(this.name != undefined && this.name != ''){
-            get_url += "?orderBy=%22P_NAME%22&equalTo=%22"+this.name+"%22";
-        }
-        axios.get(get_url).then((res)=>{
+        axios.get(url).then((res)=>{
           this.personal_data = res.data;
         });
     },
     methods:{
       doAction(d){
         this.$emit('nextpage',d);
+      },
+      doSearch(){
+        let get_url=url;
+        get_url += "?orderBy=%22P_NAME%22&equalTo=%22"+this.name+"%22";
+        axios.get(get_url).then((res)=>{
+          this.personal_data = res.data;
+        });
       }
     }
 }
