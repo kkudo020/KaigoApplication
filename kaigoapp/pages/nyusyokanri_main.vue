@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h1>入所管理画面</h1>
-    <button id="btn" class="btn2" @click="addData">保存</button>
-    <button id="btn1" class="btn" @click="delData">削除</button>
+    <button id="btn" class="btn2" @click="addData">データの保存</button>
+    <button id="btn1" class="btn" @click="delData">データの削除</button>
     
     <table>
         <tr>
@@ -15,9 +15,10 @@
       <tr>
         <td class="txt">開始</td>
         <td class="name"><no-ssr>
-      <v-date-picker 
+        <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates', placeholder:'日付を入力' }"
               :mode="mode" 
+              :update-on-input="true"
               :formats="formats"
               v-model="selectedDate">
         </v-date-picker>
@@ -28,7 +29,7 @@
       <tr>
         <td class="txt">終了</td>
         <td class="name"><no-ssr>
-      <v-date-picker 
+        <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates2', placeholder:'日付を入力' }"
               :mode="mode" 
               :formats="formats"
@@ -37,10 +38,9 @@
         </no-ssr></td>
         <td class="txt">終了時間</td>
         <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
-        
       </tr>
       <tr>
-        <td class="txt">宿泊分類</td>
+        <td class="txt" >宿泊分類</td>
         <td colspan="7" name="type"><input type="radio" name="type" id="toku"><label for="toku">特養</label>
         <input type="radio" name="type" id="short"><label for="short">ショートステイ</label></td>
       </tr>
@@ -49,11 +49,12 @@
 </template>
 
 <script>
-import VueTimepicker from 'vue2-timepicker'
-import 'vue2-timepicker/dist/VueTimepicker.css'
-import firebase from '@/plugins/firebase'
+import VueTimepicker from 'vue2-timepicker';
+import 'vue2-timepicker/dist/VueTimepicker.css';
+import firebase from '@/plugins/firebase';
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/STAY";
+
 export default {
   data:function() {
     return {
@@ -69,7 +70,6 @@ export default {
       stringTime2: "09:30",
       stringTime3: "16:00",
       stringTime4: "16:30",
-      json_data:{},
     }
   },
   components: {
@@ -86,10 +86,30 @@ export default {
          OUT_TIME_E: this.stringTime4,
          PERSONAL_ID:this.$store.state.userid,
          BED_ID:this.$store.state.bedid,
-         KEY:this.$store.state.stayid,
        };
+       var key = this.$store.state.stayid;
+       if(key == ''){
+         var btn = document.getElementById('btn');
+       btn.addEventListener('click', function() {
+         var result = window.confirm('データを保存します');
+         if(result){
+           let refData = firebase.database.ref('/STAY/');
+        return new Promise((resolve, reject) =>{
+         refData.push(data).then((res) =>{
+            resolve(res)
+          }).catch((err) =>{
+            reject(err)
+          })
+        })
+        }
+       })
+      } else {
+        var btn = document.getElementById('btn');
+       btn.addEventListener('click', function() {
+         var result = window.confirm('データを保存します');
+         if(result){
            let updates = {};
-           updates['/STAY/' + this.$store.state.stayid] = data;
+           updates['/STAY/' + key] = data;
            return new Promise((resolve, reject) =>{
              firebase.database().ref().update(updates).then((res) =>{
                resolve(res)
@@ -97,30 +117,39 @@ export default {
                reject(err)
              })
            })
+         }
+       })
+      }
     },
     delData:function(){
-      let del_url = url + '/0001.json';
       var btn = document.getElementById('btn1');
        btn.addEventListener('click', function() {
          var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
          if(result) {
-           axios.delete(del_url).then((re) =>{
-          this.getData();
-        });
+           let sendData = {
+            START_DAY: null,
+            IN_TIME_S: null,
+            IN_TIME_E: null,
+            LAST_DAY: null,
+            OUT_TIME_S: null,
+            OUT_TIME_E: null,
+            PERSONAL_ID:null,
+            BED_ID:null,
+            KEY:null,
+           };
+           let updates = {};
+           updates['/STAY/' + this.$store.state.stayid] = sendData;
+           return new Promise((resolve, reject) =>{
+             firebase.database().ref().update(updates).then((res) =>{
+               resolve(res)
+             }).catch((err) =>{
+               reject(err)
+             })
+           })
          }
        })
-    },
-    getData: function() {
-      axios.get(url + '.json').then((res) =>{
-        this.json_data = res.data;
-      }).catch((error) =>{
-        this.json_data = {};
-      });
     }
   },
-  created: function() {
-    this.getData();
-  }
 }
 </script>
 
@@ -130,7 +159,7 @@ export default {
     margin-right: 100px;
 }
 .btn2 {
-    margin-left: 1100px;
+    margin-left: 900px;
 }
 
 table {

@@ -1,13 +1,12 @@
 <template>
   <div class="container">
     <h1>ベッドの空き状況</h1>
-    日付 (～1週間を表示)
+     日付 (～1週間を表示)
     <no-ssr>
       <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates' }"
               :mode="mode" 
               :formats="formats"
-              :update-on-input="true"
               v-model="selectedDate" @input="inputEvent" >
       </v-date-picker>
     </no-ssr>
@@ -34,6 +33,7 @@
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/BED.json";
 
+
 export default {
   data:function() {
     var d = new Date();
@@ -46,6 +46,7 @@ export default {
       selectedDate:d,
       day: [],
       flag:'001',
+      
     }
   },
   methods: {
@@ -78,6 +79,7 @@ input {
   margin-left: 3.5em;
   width: 100px;
 }
+
 table {
   border-collapse: collapse;
   margin-top: 3em;
