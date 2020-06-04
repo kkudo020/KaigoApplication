@@ -46,8 +46,8 @@
       </tr>
       <tr>
         <td class="txt" >宿泊分類</td>
-        <td colspan="7" name="type"><input type="radio" name="type" id="toku"><label for="toku">特養</label>
-        <input type="radio" name="type" id="short"><label for="short">ショートステイ</label></td>
+        <td colspan="7" name="type"><label for="toku"><input type="radio" name="type" id="toku" v-model="type" value="特養" checked>特養</label>
+        <label for="short"><input type="radio" name="type" id="short" value="ショートステイ" v-model="type">ショートステイ</label></td>
       </tr>
     </table>
   </div>
@@ -77,6 +77,7 @@ export default {
       stringTime2: "09:30",
       stringTime3: "16:00",
       stringTime4: "16:30",
+      type: '特養',
     }
   },
   components: {
@@ -95,6 +96,7 @@ export default {
          OUT_TIME_E: this.stringTime4,
          PERSONAL_ID:this.$store.state.userid,
          BED_ID:this.$store.state.bedid,
+         STAY_TYPE:this.type,
        };
       var key = firebase.database().ref().child('STAY').push().key;
         var result = window.confirm('データを登録します');
@@ -112,6 +114,7 @@ export default {
          OUT_TIME_E: this.stringTime4,
          PERSONAL_ID:this.$store.state.userid,
          BED_ID:this.$store.state.bedid,
+         STAY_TYPE:this.type,
        };
       firebase.database().ref('STAY/' + this.$store.state.stayid).once("value", snapshot =>{
         console.log(snapshot.val())
@@ -131,6 +134,7 @@ export default {
             OUT_TIME_E: null,
             PERSONAL_ID:null,
             BED_ID:null,
+            STAY_TYPE:this.type,
            };
         var key = $store.commit('set_stayid');
         var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');

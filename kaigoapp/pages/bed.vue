@@ -35,6 +35,8 @@
 <script>
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/";
+import userName from '../components/userName';
+import totop from '../components/totop';
 
 export default {
   data:function() {
