@@ -65,7 +65,11 @@ export default {
     blank: function(bedid,date){
       this.$store.commit('set_bedid',bedid);
       this.$store.commit('set_date',date);
-      this.$router.push('user_list');
+      if(this.$store.state.userid){
+        this.$router.push('nyusyokanri_main');
+      }else{
+        this.$router.push('user_list');
+      }
     },
     stayed: function(stay_id){
       this.$store.commit('set_stayid',stay_id);

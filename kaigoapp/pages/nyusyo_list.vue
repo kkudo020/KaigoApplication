@@ -64,7 +64,7 @@ export default {
         },
         newcreate(){
             if(this.$store.state.bedid ==''){
-                window.location.href = '/bed';
+                this.$router.push('bed');
             }else{
                 console.log('新規作成');
             }
