@@ -1,6 +1,8 @@
 <template>
   <div class="container">
+    <totop />
     <h1>入所管理画面</h1>
+    <userName />
     <span class="box">
       <button id="btn"  class="btn" @click="addData">データの登録</button>
       <button id="btn1" class="btn" @click="upData">データの更新</button>
@@ -55,6 +57,8 @@
 import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
 import firebase from '@/plugins/firebase';
+import totop from '../components/totop';
+import userName from '../components/userName';
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/STAY";
 
@@ -77,6 +81,8 @@ export default {
   },
   components: {
       VueTimepicker,
+      userName,
+      totop
   },
   methods: {
     addData: function() {
@@ -96,6 +102,7 @@ export default {
         var result = window.confirm('データを登録します');
         if(result){
           firebase.database().ref('/STAY/ ' + key).set(data);
+          
         }
       })
     },
@@ -110,19 +117,14 @@ export default {
          PERSONAL_ID:this.$store.state.userid,
          BED_ID:this.$store.state.bedid,
        };
+      firebase.database().ref('STAY/' + this.$store.state.stayid).once("value", snapshot =>{
+        console.log(snapshot.val())
+      })
       var btn = document.getElementById('btn1');
       btn.addEventListener('click', function() {
         var result = window.confirm('データを保存します');
         if(result){
-          let updates = {};
-          updates['/STAY/' + key] = data;
-          return new Promise((resolve, reject) =>{
-            firebase.database().ref().update(updates).then((res) =>{
-              resolve(res)
-             }).catch((err) =>{
-               reject(err)
-             })
-           })
+          firebase.database().ref('/STAY/' + this.$store.state.stayid).set(data);
          }
       })
     },
@@ -140,10 +142,10 @@ export default {
             OUT_TIME_E: null,
             PERSONAL_ID:null,
             BED_ID:null,
-            KEY:null,
            };
+           var key = $store.commit('set_stayid');
            let updates = {};
-           updates['/STAY/' + this.$store.state.stayid] = sendData;
+           updates['/STAY/' + key] = sendData;
            return new Promise((resolve, reject) =>{
              firebase.database().ref().update(updates).then((res) =>{
                resolve(res)

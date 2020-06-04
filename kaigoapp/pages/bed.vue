@@ -1,7 +1,10 @@
 <template>
   <div class="container">
+    <totop />
     <h1>ベッドの空き状況</h1>
-     日付 (～1週間を表示)
+    <userName />
+    <br>
+    <span>日付 (～1週間を表示)</span>
     <no-ssr>
       <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates' }"
@@ -32,7 +35,8 @@
 <script>
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/BED.json";
-
+import totop from '../components/totop';
+import userName from '../components/userName';
 
 export default {
   data:function() {
@@ -70,6 +74,10 @@ export default {
     let result = await axios.get(url);
     return { room_data: result.data };
   },
+  components:{
+      userName,
+      totop
+    },
 }
 </script>
 
