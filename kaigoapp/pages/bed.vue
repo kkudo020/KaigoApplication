@@ -1,13 +1,12 @@
 <template>
   <div class="container">
     <h1>ベッドの空き状況</h1>
-    日付 (～1週間を表示)
+     日付 (～1週間を表示)
     <no-ssr>
       <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates' }"
               :mode="mode" 
               :formats="formats"
-              :update-on-input="true"
               v-model="selectedDate" @input="inputEvent" >
       </v-date-picker>
     </no-ssr>
@@ -42,6 +41,7 @@
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/BED.json";
 
+
 export default {
   data:function() {
     var d = new Date();
@@ -59,18 +59,19 @@ export default {
       day6: (d.getMonth() + 1) + '/' + (d.getDate() + 5) ,
       day7: (d.getMonth() + 1) + '/' + (d.getDate() + 6) ,
       flag:'001',
+      
     }
   },
   methods: {
     inputEvent: function() {
         var newday = this.selectedDate;
-        this.day1 = (newday.getMonth() + 1) + '/' + newday.getDate();
-        this.day2 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 1);
-        this.day3 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 2);
-        this.day4 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 3);
-        this.day5 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 4);
-        this.day6 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 5);
-        this.day7 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 6);
+          this.day1 = (newday.getMonth() + 1) + '/' + newday.getDate();
+          this.day2 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 1);
+          this.day3 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 2);
+          this.day4 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 3);
+          this.day5 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 4);
+          this.day6 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 5);
+          this.day7 = (newday.getMonth() + 1) + '/' + (newday.getDate() + 6);
       } 
   },
   asyncData: async function() {
@@ -86,6 +87,7 @@ input {
   margin-left: 3.5em;
   width: 100px;
 }
+
 table {
   border-collapse: collapse;
   margin-top: 3em;

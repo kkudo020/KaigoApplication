@@ -15,9 +15,10 @@
       <tr>
         <td class="txt">開始</td>
         <td class="name"><no-ssr>
-      <v-date-picker 
+        <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates', placeholder:'日付を入力' }"
               :mode="mode" 
+              :update-on-input="true"
               :formats="formats"
               v-model="selectedDate">
         </v-date-picker>
@@ -28,7 +29,7 @@
       <tr>
         <td class="txt">終了</td>
         <td class="name"><no-ssr>
-      <v-date-picker 
+        <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates2', placeholder:'日付を入力' }"
               :mode="mode" 
               :formats="formats"
@@ -37,10 +38,9 @@
         </no-ssr></td>
         <td class="txt">終了時間</td>
         <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
-        
       </tr>
       <tr>
-        <td class="txt">宿泊分類</td>
+        <td class="txt" >宿泊分類</td>
         <td colspan="7" name="type"><input type="radio" name="type" id="toku"><label for="toku">特養</label>
         <input type="radio" name="type" id="short"><label for="short">ショートステイ</label></td>
       </tr>
@@ -49,11 +49,12 @@
 </template>
 
 <script>
-import VueTimepicker from 'vue2-timepicker'
-import 'vue2-timepicker/dist/VueTimepicker.css'
-import firebase from '@/plugins/firebase'
+import VueTimepicker from 'vue2-timepicker';
+import 'vue2-timepicker/dist/VueTimepicker.css';
+import firebase from '@/plugins/firebase';
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/STAY";
+
 export default {
   data:function() {
     return {
@@ -85,9 +86,9 @@ export default {
          OUT_TIME_E: this.stringTime4,
          PERSONAL_ID:this.$store.state.userid,
          BED_ID:this.$store.state.bedid,
-         KEY:this.$store.state.stayid,
        };
-       if(this.$store.state.stayid == ''){
+       var key = this.$store.state.stayid;
+       if(key == ''){
          var btn = document.getElementById('btn');
        btn.addEventListener('click', function() {
          var result = window.confirm('データを保存します');
@@ -108,7 +109,7 @@ export default {
          var result = window.confirm('データを保存します');
          if(result){
            let updates = {};
-           updates['/STAY/' + this.$store.state.stayid] = data;
+           updates['/STAY/' + key] = data;
            return new Promise((resolve, reject) =>{
              firebase.database().ref().update(updates).then((res) =>{
                resolve(res)
@@ -158,7 +159,7 @@ export default {
     margin-right: 100px;
 }
 .btn2 {
-    margin-left: 1000px;
+    margin-left: 900px;
 }
 
 table {
