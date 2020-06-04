@@ -97,14 +97,10 @@ export default {
          BED_ID:this.$store.state.bedid,
        };
       var key = firebase.database().ref().child('STAY').push().key;
-      var btn = document.getElementById('btn');
-      btn.addEventListener('click', function() {
         var result = window.confirm('データを登録します');
         if(result){
           firebase.database().ref('/STAY/ ' + key).set(data);
-          
         }
-      })
     },
     upData:function() {
       var data = {
@@ -120,20 +116,13 @@ export default {
       firebase.database().ref('STAY/' + this.$store.state.stayid).once("value", snapshot =>{
         console.log(snapshot.val())
       })
-      var btn = document.getElementById('btn1');
-      btn.addEventListener('click', function() {
         var result = window.confirm('データを保存します');
         if(result){
           firebase.database().ref('/STAY/' + this.$store.state.stayid).set(data);
          }
-      })
     },
     delData:function(){
-      var btn = document.getElementById('btn2');
-       btn.addEventListener('click', function() {
-         var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
-         if(result) {
-           let sendData = {
+        let sendData = {
             START_DAY: null,
             IN_TIME_S: null,
             IN_TIME_E: null,
@@ -143,21 +132,14 @@ export default {
             PERSONAL_ID:null,
             BED_ID:null,
            };
-           var key = $store.commit('set_stayid');
-           let updates = {};
-           updates['/STAY/' + key] = sendData;
-           return new Promise((resolve, reject) =>{
-             firebase.database().ref().update(updates).then((res) =>{
-               resolve(res)
-             }).catch((err) =>{
-               reject(err)
-             })
-           })
-         }
-       })
-    }
-  },
-}
+        var key = $store.commit('set_stayid');
+        var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
+         if(result) {
+           firebase.database().ref('/STAY/' + this.$store.state.stayid).set(sendData);
+        }
+      }
+    },
+  }
 </script>
 
 <style>
