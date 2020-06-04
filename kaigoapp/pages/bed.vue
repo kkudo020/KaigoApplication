@@ -10,7 +10,7 @@
               v-model="selectedDate" @input="inputEvent" >
       </v-date-picker>
     </no-ssr>
-    <table>
+    <table class="table">
       <tr>
         <th></th>
         <th></th>
@@ -22,7 +22,7 @@
         <td v-for="(c_data,c_key) in day" v-bind:key="c_key" >
           <!-- <button v-if="data.SCHEDULE.hasOwnProperty((c_data.getMonth()+1)+'_'+c_data.getDate())" onclick="#">{{data}}</button> -->
           <!--data.SCHEDULE[(c_data.getMonth()+1)+"_"+c_data.getDate()]-->
-          <button @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
+          <button class="button" @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
         </td>
       </tr>
     </table>
@@ -74,13 +74,7 @@ export default {
 </script>
 
 <style>
-input {
-  margin-top:2em;
-  margin-left: 3.5em;
-  width: 100px;
-}
-
-table {
+.table {
   border-collapse: collapse;
   margin-top: 3em;
   margin-left: 2em;
@@ -90,21 +84,21 @@ table {
 .room {
   background-color: lightgray;
 }
-th, td {
+.table th, td {
   border: solid 1px black;
 }
-th {
+.table th {
   background-color: gray;
 }
-td {
+.table td {
   text-align: center;
 }
-button {
+.button {
   background-color: white;
   border-style: none;
   outline: none;
 }
-button:hover {
+.button:hover {
   color:lightblue;
 }
 </style>
