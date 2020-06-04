@@ -23,7 +23,7 @@
         <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
         <td v-for="(c_data,c_key) in day" v-bind:key="c_key">
-          <button v-if="data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()]" @click="stayed(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id);">{{staySwitch(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id)}}</button>
+          <button v-if="data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()]" @click="stayed(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id);" >{{staySwitch(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id)}}</button>
           <!--data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id-->
           <button v-else class="button" @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
         </td>
@@ -50,7 +50,6 @@ export default {
       selectedDate:d,
       day: [],
       flag:'001',
-      
     }
   },
   methods: {
@@ -76,18 +75,18 @@ export default {
       this.$router.push('/nyusyokanri_main');
     },
     staySwitch: function(stay_id){
-      axios.get(url+"STAY/"+stay_id+".json").then((res)=>{
-        console.log(url+"STAY/"+stay_id+".json");
-        let p_id = res.data.PERSONAL_ID;
-        axios.get(url+"PERSONAL/"+p_id+".json").then((p_res)=>{
-          return (p_res.data.P_NAME);
-        });
-      });
+      let p_id = this.stay_data[stay_id].PERSONAL_ID;
+      let p_res = this.personal_data[p_id]
+      return p_res.P_NAME;
     }
   },
   asyncData: async function() {
     let res = await axios.get(url+"BED.json");
-    return { room_data: res.data };
+    let p_res = await axios.get(url+"PERSONAL.json");
+    let s_res = await axios.get(url+"STAY.json");
+    return { room_data: res.data,
+             stay_data: s_res.data,
+             personal_data: p_res.data};
   },
   components:{
       userName,
