@@ -6,7 +6,7 @@
           <userName />
           <p>{{message}}</p>
       </div>
-      <userTable v-bind:name=$route.query.name @nextpage="nextpage"/>
+      <userTable @nextpage="nextpage"/>
   </div>
 </template>
 
