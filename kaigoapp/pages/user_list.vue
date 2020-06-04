@@ -1,6 +1,7 @@
 <template>
   <div class="container">
       <div>
+          <totop />
           <h1>{{title}}</h1>
           <userName />
           <p>{{message}}</p>
@@ -12,6 +13,7 @@
 <script>
 import userName from '../components/userName';
 import userTable from '../components/user_table';
+import totop from '../components/totop';
 
 export default {
     data: function(){
@@ -22,7 +24,8 @@ export default {
     },
     components:{
         userName,
-        userTable
+        userTable,
+        totop
     },
     methods:{
         nextpage(p_id){

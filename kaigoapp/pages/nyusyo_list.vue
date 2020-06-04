@@ -1,6 +1,7 @@
 <template>
   <div class="container" >
       <div>
+          <totop />
           <h1>{{title}}</h1>
           <userName />
           <p>{{message}}</p>
@@ -30,6 +31,7 @@
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/";
 import userName from '../components/userName';
+import totop from '../components/totop';
 
 export default {
     data: function(){
@@ -49,7 +51,8 @@ export default {
         };
     },
     components:{
-        userName
+        userName,
+        totop
     },
     methods:{
         doAction(id){
