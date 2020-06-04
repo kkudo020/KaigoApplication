@@ -1,8 +1,11 @@
 <template>
   <div class="container">
     <h1>入所管理画面</h1>
-    <button id="btn" class="btn2" @click="addData">データの保存</button>
-    <button id="btn1" class="btn" @click="delData">データの削除</button>
+    <span class="box">
+      <button id="btn"  class="btn" @click="addData">データの登録</button>
+      <button id="btn1" class="btn" @click="upData">データの更新</button>
+      <button id="btn2" class="btn" @click="delData">データの削除</button>
+    </span>
     
     <table>
         <tr>
@@ -77,7 +80,7 @@ export default {
   },
   methods: {
     addData: function() {
-      let data = {
+      var data = {
          START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
          IN_TIME_S: this.stringTime,
          IN_TIME_E: this.stringTime2,
@@ -87,42 +90,44 @@ export default {
          PERSONAL_ID:this.$store.state.userid,
          BED_ID:this.$store.state.bedid,
        };
-       var key = this.$store.state.stayid;
-       if(key == ''){
-         var btn = document.getElementById('btn');
-       btn.addEventListener('click', function() {
-         var result = window.confirm('データを保存します');
-         if(result){
-           let refData = firebase.database.ref('/STAY/');
-        return new Promise((resolve, reject) =>{
-         refData.push(data).then((res) =>{
-            resolve(res)
-          }).catch((err) =>{
-            reject(err)
-          })
-        })
+      var key = firebase.database().ref().child('STAY').push().key;
+      var btn = document.getElementById('btn');
+      btn.addEventListener('click', function() {
+        var result = window.confirm('データを登録します');
+        if(result){
+          firebase.database().ref('/STAY/ ' + key).set(data);
         }
-       })
-      } else {
-        var btn = document.getElementById('btn');
-       btn.addEventListener('click', function() {
-         var result = window.confirm('データを保存します');
-         if(result){
-           let updates = {};
-           updates['/STAY/' + key] = data;
-           return new Promise((resolve, reject) =>{
-             firebase.database().ref().update(updates).then((res) =>{
-               resolve(res)
+      })
+    },
+    upData:function() {
+      var data = {
+         START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
+         IN_TIME_S: this.stringTime,
+         IN_TIME_E: this.stringTime2,
+         LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
+         OUT_TIME_S: this.stringTime3,
+         OUT_TIME_E: this.stringTime4,
+         PERSONAL_ID:this.$store.state.userid,
+         BED_ID:this.$store.state.bedid,
+       };
+      var btn = document.getElementById('btn1');
+      btn.addEventListener('click', function() {
+        var result = window.confirm('データを保存します');
+        if(result){
+          let updates = {};
+          updates['/STAY/' + key] = data;
+          return new Promise((resolve, reject) =>{
+            firebase.database().ref().update(updates).then((res) =>{
+              resolve(res)
              }).catch((err) =>{
                reject(err)
              })
            })
          }
-       })
-      }
+      })
     },
     delData:function(){
-      var btn = document.getElementById('btn1');
+      var btn = document.getElementById('btn2');
        btn.addEventListener('click', function() {
          var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
          if(result) {
@@ -155,11 +160,10 @@ export default {
 
 <style>
 .btn {
-    float: right;
     margin-right: 100px;
 }
-.btn2 {
-    margin-left: 900px;
+.box {
+  float:right;
 }
 
 table {
