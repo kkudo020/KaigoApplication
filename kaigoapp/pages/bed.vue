@@ -19,7 +19,7 @@
       <tr v-for="(data,key) in room_data" v-bind:key="key">
         <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
-        <td v-for="(c_data,c_key) in day" v-bind:key="c_key" >
+        <td v-for="(c_data,c_key) in day" v-bind:key="c_key">
           <!-- <button v-if="data.SCHEDULE.hasOwnProperty((c_data.getMonth()+1)+'_'+c_data.getDate())" onclick="#">{{data}}</button> -->
           <!--data.SCHEDULE[(c_data.getMonth()+1)+"_"+c_data.getDate()]-->
           <button class="button" @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
