@@ -75,9 +75,10 @@ export default {
       this.$router.push('/nyusyokanri_main');
     },
     staySwitch: function(stay_id){
-      let p_id = this.stay_data[stay_id].PERSONAL_ID;
-      let p_res = this.personal_data[p_id]
-      return p_res.P_NAME;
+      //入所管理画面でテーブルを削除すると空き状況画面でpersonal_idが読み取れなくなりbed.vueが表示されなくなる
+      //let p_id = this.stay_data[stay_id].PERSONAL_ID;
+      //let p_res = this.personal_data[p_id]
+      //return p_res.P_NAME;
     }
   },
   asyncData: async function() {

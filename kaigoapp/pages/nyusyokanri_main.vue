@@ -15,11 +15,11 @@
         </tr>
       <tr>
         <td class="txt">氏名</td>
-        <td colspan="7" class="name">Aさん</td>
+        <td colspan="7" class="name td">{{ personal_data }}様</td>
       </tr>
       <tr>
         <td class="txt">開始</td>
-        <td class="name"><no-ssr>
+        <td class="name td"><no-ssr>
         <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates', placeholder:'日付を入力' }"
               :mode="mode" 
@@ -29,11 +29,11 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">開始時間</td>
-        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime2"></vue-timepicker></td>
+        <td colspan="3" class="name td"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime2"></vue-timepicker></td>
       </tr>
       <tr>
         <td class="txt">終了</td>
-        <td class="name"><no-ssr>
+        <td class="name td"><no-ssr>
         <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates2', placeholder:'日付を入力' }"
               :mode="mode" 
@@ -42,11 +42,11 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">終了時間</td>
-        <td colspan="3" class="name"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
+        <td colspan="3" class="name td"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
       </tr>
       <tr>
         <td class="txt" >宿泊分類</td>
-        <td colspan="7" name="type"><label for="toku"><input type="radio" name="type" id="toku" v-model="type" value="特養" checked>特養</label>
+        <td colspan="7" name="type" class="td"><label for="toku"><input type="radio" name="type" id="toku" v-model="type" value="特養" checked>特養</label>
         <label for="short"><input type="radio" name="type" id="short" value="ショートステイ" v-model="type">ショートステイ</label></td>
       </tr>
     </table>
@@ -60,7 +60,7 @@ import firebase from '@/plugins/firebase';
 import totop from '../components/totop';
 import userName from '../components/userName';
 const axios = require('axios');
-let url = "https://kaigo-db-a268b.firebaseio.com/STAY";
+let url = "https://kaigo-db-a268b.firebaseio.com/";
 
 export default {
   data:function() {
@@ -148,6 +148,11 @@ export default {
         }
       }
     },
+    asyncData: async function(context) {
+      let personal_id = context.store.state.userid;
+      let result_p_data = await axios.get(url + 'PERSONAL/' + personal_id + '/P_NAME.json');
+      return { personal_data:result_p_data.data};
+    }
   }
 </script>
 
@@ -179,7 +184,7 @@ th {
 .name {
     padding-left: 1em;
 }
-td {
+.td {
     background-color: lightcyan;
 }
 </style>
