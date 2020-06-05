@@ -103,8 +103,6 @@ export default {
         if(result){
           firebase.database().ref('/STAY/' + key).set(data);
           this.$store.commit('set_stayid');
-          var day = this.$store.state.date;
-          firebase.database().ref('/BED/' + this.$store.state.bedid + '/SCHEDULE/' + (day.getMonth()+1)+'_'+(day.getDate()) + '/stay_id').set(key);
         }
     },
     upData:function() {
