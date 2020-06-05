@@ -22,7 +22,7 @@
       <tr v-for="(data,key) in room_data" v-bind:key="key">
         <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
-        <td v-for="(c_data,c_key) in day" v-bind:key="c_key">
+        <td v-for="(c_data,c_key) in day" v-bind:key="c_key" class="nullroom">
           <button v-if="data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()]" @click="stayed(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id);" >{{staySwitch(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id)}}</button>
           <!--data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id-->
           <button v-else class="button" @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
@@ -75,9 +75,10 @@ export default {
       this.$router.push('/nyusyokanri_main');
     },
     staySwitch: function(stay_id){
-      let p_id = this.stay_data[stay_id].PERSONAL_ID;
-      let p_res = this.personal_data[p_id]
-      return p_res.P_NAME;
+      //入所管理画面でテーブルを削除すると空き状況画面でpersonal_idが読み取れなくなりbed.vueが表示されなくなる
+      //let p_id = this.stay_data[stay_id].PERSONAL_ID;
+      //let p_res = this.personal_data[p_id]
+      //return p_res.P_NAME;
     }
   },
   asyncData: async function() {
