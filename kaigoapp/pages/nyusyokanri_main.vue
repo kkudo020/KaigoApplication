@@ -88,61 +88,61 @@ export default {
   methods: {
     addData: function() {
       var data = {
-         START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
-         IN_TIME_S: this.stringTime,
-         IN_TIME_E: this.stringTime2,
-         LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
-         OUT_TIME_S: this.stringTime3,
-         OUT_TIME_E: this.stringTime4,
-         PERSONAL_ID:this.$store.state.userid,
-         BED_ID:this.$store.state.bedid,
-         STAY_TYPE:this.type,
+        START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
+        IN_TIME_S: this.stringTime,
+        IN_TIME_E: this.stringTime2,
+        LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
+        OUT_TIME_S: this.stringTime3,
+        OUT_TIME_E: this.stringTime4,
+        PERSONAL_ID:this.$store.state.userid,
+        BED_ID:this.$store.state.bedid,
+        STAY_TYPE:this.type,
        };
       var key = firebase.database().ref().child('STAY').push().key;
-        var result = window.confirm('データを登録します');
-        if(result){
-          firebase.database().ref('/STAY/' + key).set(data);
-          this.$store.commit('set_stayid');
-        }
+      var result = window.confirm('データを登録します');
+      if(result){
+        firebase.database().ref('/STAY/' + key).set(data);
+        this.$store.commit('set_stayid',key);
+      }
     },
     upData:function() {
       var data = {
-         START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
-         IN_TIME_S: this.stringTime,
-         IN_TIME_E: this.stringTime2,
-         LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
-         OUT_TIME_S: this.stringTime3,
-         OUT_TIME_E: this.stringTime4,
-         PERSONAL_ID:this.$store.state.userid,
-         BED_ID:this.$store.state.bedid,
-         STAY_TYPE:this.type,
+        START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
+        IN_TIME_S: this.stringTime,
+        IN_TIME_E: this.stringTime2,
+        LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
+        OUT_TIME_S: this.stringTime3,
+        OUT_TIME_E: this.stringTime4,
+        PERSONAL_ID:this.$store.state.userid,
+        BED_ID:this.$store.state.bedid,
+        STAY_TYPE:this.type,
        };
-      firebase.database().ref('STAY/' + this.$store.state.stayid).once("value", snapshot =>{
+      firebase.database().ref('STAY/' + this.$store.state.stayid).on("value", snapshot =>{
         console.log(snapshot.val())
       })
-        var result = window.confirm('データを保存します');
-        if(result){
-          firebase.database().ref('/STAY/' + this.$store.state.stayid).set(data);
-         }
+      var result = window.confirm('データを保存します');
+      if(result){
+        firebase.database().ref('/STAY/' + this.$store.state.stayid).set(data);
+      }
     },
     delData:function(){
         let sendData = {
-            START_DAY: null,
-            IN_TIME_S: null,
-            IN_TIME_E: null,
-            LAST_DAY: null,
-            OUT_TIME_S: null,
-            OUT_TIME_E: null,
-            PERSONAL_ID:null,
-            BED_ID:null,
-            STAY_TYPE:null,
-           };
-        firebase.database().ref('STAY/' + this.$store.state.stayid).once("value", snapshot =>{
-          console.log(snapshot.val())
+          START_DAY: null,
+          IN_TIME_S: null,
+          IN_TIME_E: null,
+          LAST_DAY: null,
+          OUT_TIME_S: null,
+          OUT_TIME_E: null,
+          PERSONAL_ID:null,
+          BED_ID:null,
+          STAY_TYPE:null,
+        };
+        firebase.database().ref('STAY/' + this.$store.state.stayid).on("value", snapshot =>{
+          console.log(snapshot.key)
         })
         var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
-         if(result) {
-           firebase.database().ref('/STAY/' + this.$store.state.stayid).set(sendData);
+        if(result) {
+          firebase.database().ref('/STAY/' + this.$store.state.stayid).set(sendData);
         }
       }
     },
