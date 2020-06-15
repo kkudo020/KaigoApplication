@@ -18,6 +18,10 @@
         <td colspan="7" class="name td">{{ personal_data }}様</td>
       </tr>
       <tr>
+        <td class="txt">ベッド</td>
+        <td colspan="7" class="name td">{{bed_num.BED_NUM}}</td>
+      </tr>
+      <tr>
         <td class="txt">開始</td>
         <td class="name td"><no-ssr>
         <v-date-picker 
@@ -71,7 +75,6 @@ export default {
       },
       format: 'HH:mm',
       minInterval: 30,
-      type: '特養',
     }
   },
   components: {
@@ -88,8 +91,8 @@ export default {
         LAST_DAY: this.selectedDate2.getFullYear()*100 + (this.selectedDate2.getMonth() + 1) + 0.01*(this.selectedDate2.getDate()),
         OUT_TIME_S: this.stringTime3,
         OUT_TIME_E: this.stringTime4,
-        PERSONAL_ID:this.$store.state.userid,
-        BED_ID:this.$store.state.bedid,
+        PERSONAL_ID:this.personal_id,
+        BED_ID:this.bed_id,
         STAY_TYPE:this.type,
        };
       var key = firebase.database().ref().child('STAY').push().key;
@@ -107,8 +110,8 @@ export default {
         LAST_DAY: this.selectedDate2.getFullYear()*100 + (this.selectedDate2.getMonth() + 1) + 0.01*(this.selectedDate2.getDate()),
         OUT_TIME_S: this.stringTime3,
         OUT_TIME_E: this.stringTime4,
-        PERSONAL_ID:this.$store.state.userid,
-        BED_ID:this.$store.state.bedid,
+        PERSONAL_ID:this.personal_id,
+        BED_ID:this.bed_id,
         STAY_TYPE:this.type,
        };
       firebase.database().ref('STAY/' + this.$store.state.stayid).on("value", snapshot =>{
@@ -148,10 +151,13 @@ export default {
       let time2= "09:30";
       let time3= "16:00";
       let time4= "16:30";
+      let type = "特養";
+      let bed_id;
       if(context.store.state.stayid == ''){
         personal_id = context.store.state.userid;
         start_day = context.store.state.date;
         last_day = context.store.state.date;
+        bed_id = context.store.state.bedid;
       }else{
         let res = await axios.get(url+"STAY/"+context.store.state.stayid+".json");
         personal_id = res.data.PERSONAL_ID;
@@ -161,16 +167,23 @@ export default {
         time2= res.data.IN_TIME_E;
         time3= res.data.OUT_TIME_S;
         time4= res.data.OUT_TIME_E;
+        type = res.data.STAY_TYPE;
+        bed_id = res.data.BED_ID;
       }
       
       let result_p_data = await axios.get(url + 'PERSONAL/' + personal_id + '/P_NAME.json');
+      let bed_num = await axios.get(url + 'BED/' + bed_id + '.json');
       return { personal_data:result_p_data.data,
+               personal_id:personal_id,
                selectedDate:start_day,
                selectedDate2:last_day,
                stringTime : time,
                stringTime2: time2,
                stringTime3: time3,
                stringTime4: time4,
+               type:type,
+               bed_num:bed_num.data,
+               bed_id:bed_id,
       };
     }
   }
