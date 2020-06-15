@@ -17,15 +17,16 @@
       <tr>
         <th></th>
         <th></th>
-        <th v-for="(data,key) in day" :key="key" >{{(data.getMonth() + 1) + '/' + data.getDate() +'('+ (weekDay[data.getDay()]) +')'}}</th>
+        <th v-for="(data,key) in day" :key="key" v-bind:class="{sunday:data.getDay()==0,saturday:data.getDay()==6}" >{{(data.getMonth() + 1) + '/' + data.getDate() +'('+ (weekDay[data.getDay()]) +')'}}</th>
       </tr>
       <tr v-for="(data,key) in room_data" v-bind:key="key">
         <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
         <td v-for="(c_data,c_key) in day" v-bind:key="c_key">
-          <!-- <button v-if="data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()]" @click="stayed(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id);" >{{staySwitch(data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id)}}</button> -->
-          <!--data.SCHEDULE[(c_data.getMonth()+1)+'_'+c_data.getDate()].stay_id-->
-          <button class="button" @click="blank(data.BED_ID,c_data);">空</button><!--クリックでメソッド(data.BED_ID,date)へ-->
+          <button v-if="staySwitch(data.BED_ID,c_data)" @click="stayed(stayed_table[''+data.BED_ID+c_data]);" >
+            {{personal_data[stay_data[stayed_table[""+data.BED_ID+c_data]].PERSONAL_ID].P_NAME}}
+          </button>
+          <button v-else class="button" @click="blank(data.BED_ID,c_data);">空</button>
         </td>
       </tr>
     </table>
@@ -50,6 +51,7 @@ export default {
       selectedDate:d,
       day: [],
       flag:'001',
+      stayed_table:{},
     }
   },
   methods: {
@@ -61,6 +63,20 @@ export default {
           newday.setDate(newday.getDate()+1);
         }
       },
+    staySwitch: function(bedid,day){
+      for(var key in this.stay_data){
+        if(this.stay_data[key].BED_ID == bedid){//bedidが一致
+        var today = day.getFullYear()*100 + (day.getMonth() + 1) + 0.01*(day.getDate());
+          if(today<=this.stay_data[key].LAST_DAY){//LAST_DAYの範囲内
+            if(this.stay_data[key].START_DAY<=today){//START_DAYの範囲内
+              this.$set(this.stayed_table,""+bedid+day,key);
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    },
     blank: function(bedid,date){
       this.$store.commit('set_bedid',bedid);
       this.$store.commit('set_date',date);
@@ -74,17 +90,11 @@ export default {
       this.$store.commit('set_stayid',stay_id);
       this.$router.push('/nyusyokanri_main');
     },
-    staySwitch: function(stay_id){
-      //入所管理画面でテーブルを削除すると空き状況画面でpersonal_idが読み取れなくなりbed.vueが表示されなくなる
-      //let p_id = this.stay_data[stay_id].PERSONAL_ID;
-      //let p_res = this.personal_data[p_id]
-      //return p_res.P_NAME;
-    }
   },
   asyncData: async function() {
     let res = await axios.get(url+"BED.json");
     let p_res = await axios.get(url+"PERSONAL.json");
-    let s_res = await axios.get(url+"STAY.json");
+    let s_res = await axios.get(url+"STAY.json");//ステイテーブル一括は危ない
     return { room_data: res.data,
              stay_data: s_res.data,
              personal_data: p_res.data};
@@ -116,6 +126,12 @@ export default {
 }
 .table td {
   text-align: center;
+}
+.table .sunday{
+  background-color: lightcoral;
+}
+.table .saturday{
+  background-color: lightskyblue;
 }
 .button {
   background-color: white;

@@ -69,14 +69,8 @@ export default {
       formats: {
         input: ['YYYY-MM-DD'],
       },
-      selectedDate:new Date(),
-      selectedDate2: new Date(),
       format: 'HH:mm',
       minInterval: 30,
-      stringTime: "09:00",
-      stringTime2: "09:30",
-      stringTime3: "16:00",
-      stringTime4: "16:30",
       type: '特養',
     }
   },
@@ -88,10 +82,10 @@ export default {
   methods: {
     addData: function() {
       var data = {
-        START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
+        START_DAY: this.selectedDate.getFullYear()*100 + (this.selectedDate.getMonth() + 1) + 0.01*(this.selectedDate.getDate()),
         IN_TIME_S: this.stringTime,
         IN_TIME_E: this.stringTime2,
-        LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
+        LAST_DAY: this.selectedDate2.getFullYear()*100 + (this.selectedDate2.getMonth() + 1) + 0.01*(this.selectedDate2.getDate()),
         OUT_TIME_S: this.stringTime3,
         OUT_TIME_E: this.stringTime4,
         PERSONAL_ID:this.$store.state.userid,
@@ -107,10 +101,10 @@ export default {
     },
     upData:function() {
       var data = {
-        START_DAY: (this.selectedDate.getMonth() + 1) + '/' + (this.selectedDate.getDate()),
+        START_DAY: this.selectedDate.getFullYear()*100 + (this.selectedDate.getMonth() + 1) + 0.01*(this.selectedDate.getDate()),
         IN_TIME_S: this.stringTime,
         IN_TIME_E: this.stringTime2,
-        LAST_DAY: (this.selectedDate2.getMonth() + 1) + '/' + (this.selectedDate2.getDate()),
+        LAST_DAY: this.selectedDate2.getFullYear()*100 + (this.selectedDate2.getMonth() + 1) + 0.01*(this.selectedDate2.getDate()),
         OUT_TIME_S: this.stringTime3,
         OUT_TIME_E: this.stringTime4,
         PERSONAL_ID:this.$store.state.userid,
@@ -147,9 +141,37 @@ export default {
       }
     },
     asyncData: async function(context) {
-      let personal_id = context.store.state.userid;
+      let personal_id;
+      let start_day;
+      let last_day;
+      let time = "09:00";
+      let time2= "09:30";
+      let time3= "16:00";
+      let time4= "16:30";
+      if(context.store.state.stayid == ''){
+        personal_id = context.store.state.userid;
+        start_day = context.store.state.date;
+        last_day = context.store.state.date;
+      }else{
+        let res = await axios.get(url+"STAY/"+context.store.state.stayid+".json");
+        personal_id = res.data.PERSONAL_ID;
+        start_day = new Date(Math.floor(res.data.START_DAY/100),(Math.floor(res.data.START_DAY)%100-1),(res.data.START_DAY*100)%100);
+        last_day = new Date(Math.floor(res.data.START_DAY/100),(Math.floor(res.data.LAST_DAY)%100-1),(res.data.LAST_DAY*100)%100);
+        time = res.data.IN_TIME_S;
+        time2= res.data.IN_TIME_E;
+        time3= res.data.OUT_TIME_S;
+        time4= res.data.OUT_TIME_E;
+      }
+      
       let result_p_data = await axios.get(url + 'PERSONAL/' + personal_id + '/P_NAME.json');
-      return { personal_data:result_p_data.data};
+      return { personal_data:result_p_data.data,
+               selectedDate:start_day,
+               selectedDate2:last_day,
+               stringTime : time,
+               stringTime2: time2,
+               stringTime3: time3,
+               stringTime4: time4,
+      };
     }
   }
 </script>
