@@ -5,6 +5,7 @@
           <h1>{{title}}</h1>
           <userName />
           <p>{{message}}</p>
+          <button @click="doClick">ひとつ前の画面に戻る</button>
       </div>
       <userTable @nextpage="nextpage"/>
   </div>
@@ -37,6 +38,9 @@ export default {
             }
             this.$store.commit('set_userid',p_id);
             this.$router.push(next);
+        },
+        doClick: function() {
+            this.$router.push('/nyusyotop');
         }
     }
 }

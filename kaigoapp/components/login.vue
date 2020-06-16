@@ -1,7 +1,7 @@
 <template>
-    <div style="text">
-        <div>
-            <p style="color:red;">{{msg}}</p>
+    <div>
+        <div style="text">
+            <p class="message">{{msg}}</p>
         <table>
             <tr>
                 <th><label>ID</label></th>

@@ -5,6 +5,7 @@
           <h1>{{title}}</h1>
           <userName />
           <p>{{message}}</p>
+          <button @click="doClick">ひとつ前の画面へ戻る</button>
       </div>
       <p>[{{personal_data}}] 様</p>
       <button style="width:7em; margin-top:5pt;" @click="newcreate()">新規作成</button>
@@ -68,36 +69,10 @@ export default {
             }else{
                 console.log('新規作成');
             }
-            
-        }
+        },
+        doClick: function() {
+            this.$router.push('user_list');
+        },
     }
 }
 </script>
-<style>
-.list{
-  border-collapse: collapse;
-  margin: 10pt 0;
-  width: 50%;
-  height: 3em;
-}
-.list th{
-    font-size: 14pt;
-    color: white;
-    padding: 5pt;
-    border: 2px solid gray;
-    background: steelblue;
-}
-.list tr{
-    padding: 1pt 5pt;
-    border: 2px solid gray;
-    background: rgb(223, 234, 238);
-}
-.list tr:hover{
-    background: rgb(158, 215, 236);
-    cursor: pointer;
-}
-.list td{
-    padding: 1pt 5pt;
-    border: none;
-}
-</style>

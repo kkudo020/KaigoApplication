@@ -3,23 +3,23 @@
     <totop />
     <h1>入所管理画面</h1>
     <userName />
+    <button @click="doClick">ひとつ前の画面に戻る</button>
     <span class="box">
       <button id="btn"  class="btn" @click="addData">データの登録</button>
       <button id="btn1" class="btn" @click="upData">データの更新</button>
       <button id="btn2" class="btn" @click="delData">データの削除</button>
     </span>
-    
-    <table>
+    <table class="kanri">
         <tr>
             <th colspan="7"></th>
         </tr>
       <tr>
         <td class="txt">氏名</td>
-        <td colspan="7" class="name td">{{ personal_data }}様</td>
+        <td colspan="7" class="item">{{ personal_data }}様</td>
       </tr>
       <tr>
         <td class="txt">開始</td>
-        <td class="name td"><no-ssr>
+        <td class="item"><no-ssr>
         <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates', placeholder:'日付を入力' }"
               :mode="mode" 
@@ -29,11 +29,11 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">開始時間</td>
-        <td colspan="3" class="name td"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime2"></vue-timepicker></td>
+        <td colspan="3" class="item"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime2"></vue-timepicker></td>
       </tr>
       <tr>
         <td class="txt">終了</td>
-        <td class="name td"><no-ssr>
+        <td class="item"><no-ssr>
         <v-date-picker 
               :input-props="{ class: 'input', name: 'event_dates2', placeholder:'日付を入力' }"
               :mode="mode" 
@@ -42,11 +42,11 @@
         </v-date-picker>
         </no-ssr></td>
         <td class="txt">終了時間</td>
-        <td colspan="3" class="name td"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
+        <td colspan="3" class="item"><vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime3"></vue-timepicker> ～ <vue-timepicker :format="format" :minute-interval="minInterval" v-model="stringTime4"></vue-timepicker></td>
       </tr>
       <tr>
         <td class="txt" >宿泊分類</td>
-        <td colspan="7" name="type" class="td"><label for="toku"><input type="radio" name="type" id="toku" v-model="type" value="特養" checked>特養</label>
+        <td colspan="7" name="type" class="item"><label for="toku"><input type="radio" name="type" id="toku" v-model="type" value="特養" checked>特養</label>
         <label for="short"><input type="radio" name="type" id="short" value="ショートステイ" v-model="type">ショートステイ</label></td>
       </tr>
     </table>
@@ -144,7 +144,14 @@ export default {
         if(result) {
           firebase.database().ref('/STAY/' + this.$store.state.stayid).set(sendData);
         }
-      }
+      },
+      doClick: function() {
+        if(this.$store.state.stayid != ''){
+          this.$router.push('/nyusyo_list');
+        } else {
+          this.$router.push('/user_list');
+        }
+      },
     },
     asyncData: async function(context) {
       let personal_id = context.store.state.userid;
@@ -154,35 +161,3 @@ export default {
   }
 </script>
 
-<style>
-.btn {
-    margin-right: 100px;
-}
-.box {
-  float:right;
-}
-
-table {
-  border-collapse: collapse;
-  margin-top: 3em;
-  width: 100%;
-  height: 500px;
-}
-th, td {
-  border: solid 1px black;
-}
-th {
-    padding: 3px;
-    background-color: lightblue;
-}
-.txt {
-    text-align: center;
-    background-color: lightblue;
-}
-.name {
-    padding-left: 1em;
-}
-.td {
-    background-color: lightcyan;
-}
-</style>

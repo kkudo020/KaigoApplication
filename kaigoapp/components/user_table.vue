@@ -54,31 +54,3 @@ export default {
     }
 }
 </script>
-<style>
-.list{
-  border-collapse: collapse;
-  margin: 10pt 0;
-  width: 50%;
-  height: 3em;
-}
-.list th{
-    font-size: 14pt;
-    color: white;
-    padding: 5pt;
-    border: 2px solid gray;
-    background: steelblue;
-}
-.list tr{
-    padding: 1pt 5pt;
-    border: 2px solid gray;
-    background: rgb(223, 234, 238);
-}
-.list tr:hover{
-    background: rgb(158, 215, 236);
-    cursor: pointer;
-}
-.list td{
-    padding: 1pt 5pt;
-    border: none;
-}
-</style>

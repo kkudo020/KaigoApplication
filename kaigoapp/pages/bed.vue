@@ -13,7 +13,8 @@
               v-model="selectedDate" @input="inputEvent" >
       </v-date-picker>
     </no-ssr>
-    <table class="table">
+    <br><button @click="doClick">ひとつ前の画面に戻る</button>
+    <table class="bed">
       <tr>
         <th></th>
         <th></th>
@@ -79,6 +80,13 @@ export default {
       //let p_id = this.stay_data[stay_id].PERSONAL_ID;
       //let p_res = this.personal_data[p_id]
       //return p_res.P_NAME;
+    },
+    doClick: function() {
+      if(this.$store.state.userid != '') {
+        this.$router.push('/nyusyo_list');
+      } else {
+        this.$router.push('/nyusyotop');
+      }
     }
   },
   asyncData: async function() {
@@ -95,34 +103,3 @@ export default {
     },
 }
 </script>
-
-<style>
-.table {
-  border-collapse: collapse;
-  margin-top: 3em;
-  margin-left: 2em;
-  width: 97%;
-  height: 800px;
-}
-.room {
-  background-color: lightgray;
-}
-.table th, td {
-  border: solid 1px black;
-  width: 8em;
-}
-.table th {
-  background-color: gray;
-}
-.table td {
-  text-align: center;
-}
-.button {
-  background-color: white;
-  border-style: none;
-  outline: none;
-}
-.button:hover {
-  color:lightblue;
-}
-</style>
