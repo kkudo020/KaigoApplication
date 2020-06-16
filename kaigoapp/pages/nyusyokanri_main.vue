@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <totop />
+    <back />
     <h1>入所管理画面</h1>
     <userName />
-    <button @click="doClick">ひとつ前の画面に戻る</button>
     <span class="box">
       <button id="btn"  class="btn" @click="addData">データの登録</button>
       <button id="btn1" class="btn" @click="upData">データの更新</button>
@@ -19,7 +19,7 @@
       </tr>
       <tr>
         <td class="txt">ベッド</td>
-        <td colspan="7" class="name td">{{bed_num.BED_NUM}}</td>
+        <td colspan="7" class="item">{{bed_num.BED_NUM}}</td>
       </tr>
       <tr>
         <td class="txt">開始</td>
@@ -62,6 +62,7 @@ import VueTimepicker from 'vue2-timepicker';
 import 'vue2-timepicker/dist/VueTimepicker.css';
 import firebase from '@/plugins/firebase';
 import totop from '../components/totop';
+import back from '../components/back';
 import userName from '../components/userName';
 const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/";
@@ -80,7 +81,8 @@ export default {
   components: {
       VueTimepicker,
       userName,
-      totop
+      totop,
+      back
   },
   methods: {
     addData: function() {
@@ -140,13 +142,6 @@ export default {
         var result = window.confirm('保存されているデータも削除されてしまいますがよろしいですか？');
         if(result) {
           firebase.database().ref('/STAY/' + this.$store.state.stayid).set(sendData);
-        }
-      },
-      doClick: function() {
-        if(this.$store.state.stayid != ''){
-          this.$router.push('/nyusyo_list');
-        } else {
-          this.$router.push('/user_list');
         }
       },
     },

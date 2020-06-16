@@ -2,10 +2,10 @@
   <div class="container" >
       <div>
           <totop />
+          <back />
           <h1>{{title}}</h1>
           <userName />
           <p>{{message}}</p>
-          <button @click="doClick">ひとつ前の画面へ戻る</button>
       </div>
       <p>[{{personal_data}}] 様</p>
       <button style="width:7em; margin-top:5pt;" @click="newcreate()">新規作成</button>
@@ -33,6 +33,7 @@ const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/";
 import userName from '../components/userName';
 import totop from '../components/totop';
+import back from '../components/back';
 
 export default {
     data: function(){
@@ -53,25 +54,21 @@ export default {
     },
     components:{
         userName,
-        totop
+        totop,
+        back
     },
     methods:{
         doAction(id){
             // this.$router.push('nyusyokanri_main');
             this.$store.commit('set_stayid',id);
             this.$store.commit('set_bedid','001')
+            this.$store.commit('set_url',"/nyusyo_list");
             this.$router.push('nyusyokanri_main');
             // window.location.href = '/nyusyokanri_main';
         },
         newcreate(){
-            if(this.$store.state.bedid ==''){
-                this.$router.push('bed');
-            }else{
-                console.log('新規作成');
-            }
-        },
-        doClick: function() {
-            this.$router.push('user_list');
+            this.$store.commit('set_url',"/nyusyo_list");
+            this.$router.push('bed');
         },
     }
 }

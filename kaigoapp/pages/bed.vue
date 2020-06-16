@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <totop />
+    <back />
     <h1>ベッドの空き状況</h1>
     <userName />
     <br>
@@ -13,7 +14,6 @@
               v-model="selectedDate" @input="inputEvent" >
       </v-date-picker>
     </no-ssr>
-    <br><button @click="doClick">ひとつ前の画面に戻る</button>
     <table class="bed">
       <tr>
         <th></th>
@@ -39,6 +39,7 @@ const axios = require('axios');
 let url = "https://kaigo-db-a268b.firebaseio.com/";
 import userName from '../components/userName';
 import totop from '../components/totop';
+import back from '../components/back';
 
 export default {
   data:function() {
@@ -60,7 +61,7 @@ export default {
         var newday = new Date(this.selectedDate);
         for(var i=0;i<7;i++){
           this.$set(this.day,i,new Date(newday));
-          //(newday.getMonth() + 1) + '/' + newday.getDate() +'('+ this.weekDay[newday.getDay()] +')'
+          //(newday.getMonth() + 1) + '/' + newday.getDate() +'('+ twhis.weekDay[newday.getDay()] +')'
           newday.setDate(newday.getDate()+1);
         }
       },
@@ -81,6 +82,7 @@ export default {
     blank: function(bedid,date){
       this.$store.commit('set_bedid',bedid);
       this.$store.commit('set_date',date);
+      this.$store.commit('set_url',"/bed");
       if(this.$store.state.userid){
         this.$router.push('nyusyokanri_main');
       }else{
@@ -89,6 +91,7 @@ export default {
     },
     stayed: function(stay_id){
       this.$store.commit('set_stayid',stay_id);
+      this.$store.commit('set_url',"/bed");
       this.$router.push('/nyusyokanri_main');
     },
     doClick: function() {
@@ -99,7 +102,8 @@ export default {
       }
     }
   },
-  asyncData: async function() {
+  asyncData: async function(context) {
+    context.store.commit('set_bedid','');
     let res = await axios.get(url+"BED.json");
     let p_res = await axios.get(url+"PERSONAL.json");
     let s_res = await axios.get(url+"STAY.json");//ステイテーブル一括は危ない
@@ -109,7 +113,8 @@ export default {
   },
   components:{
       userName,
-      totop
+      totop,
+      back
     },
 }
 </script>

@@ -8,6 +8,7 @@ const createStore = ()=>{
                 bedid:'',
                 stayid:'',
                 date:'',
+                url:[],
             };
         },
         mutations:{
@@ -22,6 +23,9 @@ const createStore = ()=>{
             },
             set_date: function(state,id){
                 state.date = id;
+            },
+            set_url: function(state,url){
+                state.url.push(url);
             },
         },
     })
