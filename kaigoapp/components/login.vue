@@ -13,7 +13,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><button @click="login();">ログイン</button></td>
+                <td><button @click="login();" class="logbutton">ログイン</button></td>
             </tr>
         </table>
         </div>

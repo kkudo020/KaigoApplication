@@ -8,7 +8,7 @@
           <p>{{message}}</p>
       </div>
       <p>[{{personal_data}}] 様</p>
-      <button style="width:7em; margin-top:5pt;" @click="newcreate()">新規作成</button>
+      <button  @click="newcreate()" class="nyusyobutton">新規作成</button>
           <table class="list">
               <tr>
                   <th>フロア</th>

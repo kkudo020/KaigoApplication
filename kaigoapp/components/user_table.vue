@@ -2,7 +2,7 @@
   <div class="container" >
           <form @submit.prevent="doSearch" method="POST" >
               <input type="text" name="name" v-model="name">
-              <input type="submit" value="検索">
+              <input type="submit" value="検索" class="nyusyobutton">
           </form>
           <table class="list">
               <tr style="cursor:default;">

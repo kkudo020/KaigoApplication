@@ -4,7 +4,7 @@
           <h1>{{title}}</h1>
           <p>{{message}}</p>
           <userName />
-          <button @click="logout();">ログアウト</button><br>
+          <button @click="logout();" class="logbutton">ログアウト</button><br><br><br>
           <a @click="bed">ベットの利用状況</a><br>
           <a @click="user_list">利用者一覧</a>
       </div>

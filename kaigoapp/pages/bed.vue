@@ -24,8 +24,8 @@
         <th rowspan="8" v-if="data.BED_ID == flag">{{ data.FLOOR }}F</th>
         <td class="room">{{ data.BED_NUM }}</td>
         <td v-for="(c_data,c_key) in day" v-bind:key="c_key">
-          <button v-if="staySwitch(data.BED_ID,c_data)" @click="stayed(stayed_table[''+data.BED_ID+c_data]);" >
-            {{personal_data[stay_data[stayed_table[""+data.BED_ID+c_data]].PERSONAL_ID].P_NAME}}
+          <button v-if="staySwitch(data.BED_ID,c_data)" @click="stayed(stayed_table[''+data.BED_ID+c_data]);" class="bedbutton">
+            {{personal_data[stay_data[stayed_table[""+data.BED_ID+c_data]].PERSONAL_ID].P_NAME}}様
           </button>
           <button v-else class="button" @click="blank(data.BED_ID,c_data);">空</button>
         </td>
@@ -83,7 +83,7 @@ export default {
       this.$store.commit('set_bedid',bedid);
       this.$store.commit('set_date',date);
       this.$store.commit('set_url',"/bed");
-      if(this.$store.state.userid){
+      if(this.$store.state.userid != ""){
         this.$router.push('nyusyokanri_main');
       }else{
         this.$router.push('user_list');

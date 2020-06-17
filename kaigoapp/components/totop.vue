@@ -1,7 +1,5 @@
 <template>
     <div>
-        <a href="/" style="text-decoration: none;">
-          <div id="top">TOP</div>
-        </a>
+        <button id="top" onclick="location.href='/'">TOP</button>
     </div>
 </template>

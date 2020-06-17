@@ -5,9 +5,9 @@
     <h1>入所管理画面</h1>
     <userName />
     <span class="box">
-      <button id="btn"  class="btn" @click="addData">データの登録</button>
-      <button id="btn1" class="btn" @click="upData">データの更新</button>
-      <button id="btn2" class="btn" @click="delData">データの削除</button>
+      <button class="btn" @click="addData">データの登録</button>
+      <button class="btn" @click="upData">データの更新</button>
+      <button class="btn" @click="delData">データの削除</button>
     </span>
     <table class="kanri">
         <tr>

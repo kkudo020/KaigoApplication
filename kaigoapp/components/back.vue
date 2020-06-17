@@ -1,6 +1,6 @@
 <template>
     <div>
-      <button @click="onClick()">前のページに戻る</button>
+      <button @click="onClick()" class="backbutton">前のページに戻る</button>
     </div>
 </template>
 
