@@ -90,6 +90,9 @@
 .button:hover {
     color:lightblue;
 }
+.sunday {
+    background-color: red;
+}
 
 /*入所管理css*/
 .btn {
